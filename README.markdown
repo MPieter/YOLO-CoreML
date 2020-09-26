@@ -4,8 +4,8 @@ This repository is forked from https://github.com/hollance/YOLO-CoreML-MPSNNGrap
 
 When running the application, double tap to switch between Tiny YOLO and YOLOv3.
 
-![YOLO in action](YOLOv3-1.jpg)
-![YOLO in action](YOLOv3-2.jpg)
+![YOLO in action](YOLOv3-1.png)
+![YOLO in action](YOLOv3-2.png)
 
 In this repo you'll find:
 
@@ -16,13 +16,14 @@ To run the app, just open the **xcodeproj** file in Xcode 9 or later, and run it
 
 The reported "elapsed" time is how long it takes the YOLO neural net to process a single image. The FPS is the actual throughput achieved by the app.
 
-> **NOTE:** Running these kinds of neural networks eats up a lot of battery power. To measure the maximum speed of the model, the `setUpCamera()` method in ViewController.swift configures the camera to run at 240 FPS, if available. In a real app, you'd use at most 30 FPS and possibly limit the number of times per second it runs the neural net to 15 or less (i.e. only process every other frame).
-
 ## Converting the models
 
 To start running the application you need to create first the YOLOv3.mlmodel. I didn't include this in the repository due to its file size. It's done in two steps: first you have to convert the YOLOv3 model in darknet format to Keras, then you convert the keras model to CoreML.
 
 ### Keras-yolo3
+
+See repository https://github.com/qqwweee/keras-yolo3.
+Use the `convert.py` script to convert the YOLOv3 config and weights to a Keras model.
 
 ### coreml.py
 
