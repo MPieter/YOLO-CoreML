@@ -3,14 +3,98 @@ import UIKit
 import CoreML
 import Accelerate
 
-// The labels for the 20 classes.
-let labels = [
+// The labels for the different classes in Yolo v2 and v3 classes
+let yolov2_labels = [
   "aeroplane", "bicycle", "bird", "boat", "bottle", "bus", "car", "cat",
   "chair", "cow", "diningtable", "dog", "horse", "motorbike", "person",
   "pottedplant", "sheep", "sofa", "train", "tvmonitor"
 ]
+let yolov3_labels = [ // YOLO v3
+    "person",
+    "bicycle",
+    "car",
+    "motorbike",
+    "aeroplane",
+    "bus",
+    "train",
+    "truck",
+    "boat",
+    "traffic light",
+    "fire hydrant",
+    "stop sign",
+    "parking meter",
+    "bench",
+    "bird",
+    "cat",
+    "dog",
+    "horse",
+    "sheep",
+    "cow",
+    "elephant",
+    "bear",
+    "zebra",
+    "giraffe",
+    "backpack",
+    "umbrella",
+    "handbag",
+    "tie",
+    "suitcase",
+    "frisbee",
+    "skis",
+    "snowboard",
+    "sports ball",
+    "kite",
+    "baseball bat",
+    "baseball glove",
+    "skateboard",
+    "surfboard",
+    "tennis racket",
+    "bottle",
+    "wine glass",
+    "cup",
+    "fork",
+    "knife",
+    "spoon",
+    "bowl",
+    "banana",
+    "apple",
+    "sandwich",
+    "orange",
+    "broccoli",
+    "carrot",
+    "hot dog",
+    "pizza",
+    "donut",
+    "cake",
+    "chair",
+    "sofa",
+    "pottedplant",
+    "bed",
+    "diningtable",
+    "toilet",
+    "tvmonitor",
+    "laptop",
+    "mouse",
+    "remote",
+    "keyboard",
+    "cell phone",
+    "microwave",
+    "oven",
+    "toaster",
+    "sink",
+    "refrigerator",
+    "book",
+    "clock",
+    "vase",
+    "scissors",
+    "teddy bear",
+    "hair drier",
+    "toothbrush"
+]
 
-let anchors: [Float] = [1.08, 1.19, 3.42, 4.41, 6.63, 11.38, 9.42, 5.11, 16.62, 10.52]
+let anchors_v2_tiny: [Float] = [1.08, 1.19, 3.42, 4.41, 6.63, 11.38, 9.42, 5.11, 16.62, 10.52]
+let anchors_v3 : [[Float]] = [[10,13,  16,30,  33,23],  [30,61,  62,45,  59,119], [116,90,  156,198,  373,326]]
+
 
 /**
   Removes bounding boxes that overlap too much with other boxes that have
@@ -23,12 +107,12 @@ let anchors: [Float] = [1.08, 1.19, 3.42, 4.41, 6.63, 11.38, 9.42, 5.11, 16.62, 
     - limit: the maximum number of boxes that will be selected
     - threshold: used to decide whether boxes overlap too much
 */
-func nonMaxSuppression(boxes: [YOLO.Prediction], limit: Int, threshold: Float) -> [YOLO.Prediction] {
+func nonMaxSuppression(boxes: [Prediction], limit: Int, threshold: Float) -> [Prediction] {
 
   // Do an argsort on the confidence scores, from high to low.
   let sortedIndices = boxes.indices.sorted { boxes[$0].score > boxes[$1].score }
 
-  var selected: [YOLO.Prediction] = []
+  var selected: [Prediction] = []
   var active = [Bool](repeating: true, count: boxes.count)
   var numActive = active.count
 

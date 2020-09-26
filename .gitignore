@@ -41,3 +41,4 @@ __pycache__/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+Yolov3.mlmodel
